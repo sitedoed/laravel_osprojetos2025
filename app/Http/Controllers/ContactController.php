@@ -8,7 +8,7 @@ use App\Mail\ContactFormSubmitted;
 
 class ContactController extends Controller
 {
-    public function submit(Request $request)
+    public function store(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -16,12 +16,15 @@ class ContactController extends Controller
             'company' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:20',
             'service' => 'nullable|string|max:255',
-            'message' => 'required|string|max:2000',
+            'message' => 'required|string|max:5000',
         ]);
 
-        // Envie o email (configure seu .env primeiro)
-        Mail::to('dev@osprojetos.com.br')->send(new ContactFormSubmitted($validated));
+        // Salvar no banco
+        Contact::create($validated);
 
-        return back()->with('success', true);
+        // Enviar email (opcional)
+        // Mail::to('dev@osprojetos.com.br')->send(new ContactFormMail($validated));
+
+        return redirect()->back()->with('success', 'Obrigado pelo contato! Retornaremos em breve.');
     }
 }

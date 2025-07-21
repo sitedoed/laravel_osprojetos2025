@@ -22,10 +22,13 @@
             <div class="card h-100">
                 <div class="card-body">
 @include('components.hero-title')
+@include('frontend.contact')
                 </div>
             </div>
         </div>
         <!-- Mais serviços... -->
     </div>
 </div>
+
+@include('components.footer')
 @endsection
